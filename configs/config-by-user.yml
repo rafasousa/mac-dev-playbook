@@ -1,0 +1,31 @@
+---
+configure_dotfiles: true
+configure_osx: true
+configure_dock: true
+configure_terminal: true
+
+configure_git: false
+configure_sudoers: false
+configure_sublime: false
+
+terminal_theme_name: Dracula
+
+dockitems_remove: []
+
+dotfiles_repo: https://github.com/rafasousa/dotfiles.git
+dotfiles_repo_accept_hostkey: true
+dotfiles_repo_local_destination: ~/Projects/dotfiles
+dotfiles_repo_version: main
+
+dotfiles_files:
+  - .gitconfig
+  - .gitignore
+  - .inputrc
+  - .zshrc
+  - .osx
+
+homebrew_installed_packages:
+  - spaceship
+
+homebrew_cask_apps:
+  - docker

@@ -11,7 +11,7 @@
       with_fileglob:
         - "{{ playbook_dir }}/config.yml"
         - "{{ playbook_dir }}/config_common.yml"
-        - "{{ playbook_dir }}/config/config_{{ user_type }}.yml"
+        - "{{ playbook_dir }}/configs/{{ user_type }}.yml"
       tags: ['always']
 
   roles:

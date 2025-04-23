@@ -10,6 +10,8 @@
       include_vars: "{{ item }}"
       with_fileglob:
         - "{{ playbook_dir }}/config.yml"
+        - "{{ playbook_dir }}/config_common.yml"
+        - "{{ playbook_dir }}/config/config_{{ user_type }}.yml"
       tags: ['always']
 
   roles:
@@ -45,6 +47,10 @@
     - import_tasks: tasks/sublime-text.yml
       when: configure_sublime
       tags: ['sublime-text']
+
+    - import_tasks: tasks/git.yml
+      when: configure_git
+      tags: ['git']
 
     - name: Run post-provision task files in a block.
       tags: ['post']

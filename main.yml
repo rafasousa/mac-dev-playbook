@@ -9,10 +9,12 @@
     - name: Include playbook configuration.
       include_vars: "{{ item }}"
       with_fileglob:
-        - "{{ playbook_dir }}/config.yml"
-        - "{{ playbook_dir }}/config_common.yml"
+        - "{{ playbook_dir }}/configs/common.yml"
         - "{{ playbook_dir }}/configs/{{ user_type }}.yml"
       tags: ['always']
+
+    - debug:
+        msg: "User Type: {{ user_type }}"
 
   roles:
     - role: elliotweiser.osx-command-line-tools
@@ -51,6 +53,13 @@
     - import_tasks: tasks/git.yml
       when: configure_git
       tags: ['git']
+
+    - name: Setup SSH keys
+      import_tasks: tasks/ssh.yml
+      vars:
+        user_type: "{{ user_type }}"
+      when: configure_ssh
+      tags: ['ssh']
 
     - name: Run post-provision task files in a block.
       tags: ['post']

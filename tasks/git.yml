@@ -1,12 +1,11 @@
 ---
-- name: Set Git user name
-  community.general.git_config:
-    name: user.name
-    scope: global
-    value: "{{ git_username }}"
-
-- name: Set Git user email
-  community.general.git_config:
-    name: user.email
-    scope: global
-    value: "{{ git_email }}"
+- name: Write user-specific gitconfig
+  copy:
+    dest: "{{ ansible_env.HOME }}/.gitconfig-user"
+    content: |
+      [user]
+        name = {{ git_username }}
+        email = {{ git_email }}
+    owner: "{{ ansible_user }}"
+    group: staff
+    mode: '0644'

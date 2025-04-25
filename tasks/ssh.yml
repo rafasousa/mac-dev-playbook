@@ -9,7 +9,7 @@
 
 - name: Generate SSH key for {{ user_type }}
   openssh_keypair:
-    path: "{{ ansible_env.HOME }}/.ssh/id_{{ ssh_key_type }}"
+    path: "{{ ansible_env.HOME }}/.ssh/id_{{ ssh_key_type }}_{{ user_type}}"
     type: "{{ ssh_key_type }}"
     comment: "{{ ssh_key_comment }}"
     force: false
@@ -17,7 +17,7 @@
 
 - name: Set permissions for private key
   file:
-    path: "{{ ansible_env.HOME }}/.ssh/id_{{ ssh_key_type }}"
+    path: "{{ ansible_env.HOME }}/.ssh/id_{{ ssh_key_type }}_{{ user_type}}"
     mode: '0600'
     owner: "{{ ansible_user_id }}"
     group: staff
@@ -25,14 +25,14 @@
 
 - name: Set permissions for public key
   file:
-    path: "{{ ansible_env.HOME }}/.ssh/id_{{ ssh_key_type }}.pub"
+    path: "{{ ansible_env.HOME }}/.ssh/id_{{ ssh_key_type }}_{{ user_type}}.pub"
     mode: '0644'
     owner: "{{ ansible_user_id }}"
     group: staff
   when: ssh_key_type is defined
 
 - name: Show public key (to add manually to GitHub, Azure, etc.)
-  command: cat "{{ ansible_env.HOME }}/.ssh/id_{{ ssh_key_type }}.pub"
+  command: cat "{{ ansible_env.HOME }}/.ssh/id_{{ ssh_key_type }}_{{ user_type}}.pub"
   register: ssh_pub
   changed_when: false
 
@@ -43,12 +43,12 @@
       Host github.com
         HostName github.com
         User git
-        IdentityFile ~/.ssh/id_{{ ssh_key_type }}
+        IdentityFile ~/.ssh/id_{{ ssh_key_type }}_{{ user_type}}
 
       Host dev.azure.com
         HostName dev.azure.com
         User git
-        IdentityFile ~/.ssh/id_{{ ssh_key_type }}
+        IdentityFile ~/.ssh/id_{{ ssh_key_type }}_{{ user_type}}
     mode: '0600'
     owner: "{{ ansible_user_id }}"
     group: staff
@@ -57,7 +57,7 @@
 - name: Add SSH key to agent
   shell: |
     eval "$(ssh-agent -s)"
-    ssh-add ~/.ssh/id_{{ ssh_key_type }}
+    ssh-add ~/.ssh/id_{{ ssh_key_type }}_{{ user_type}}
   args:
     executable: /bin/bash
   when: 

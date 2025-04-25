@@ -68,5 +68,5 @@
 - name: Print SSH public key
   debug:
     msg: |
-      📎 Public key SSH for user_type '{{ user_type }}':
+      📎 Public key SSH for user_type -> '{{ user_type }}':
       {{ ssh_pub.stdout }}

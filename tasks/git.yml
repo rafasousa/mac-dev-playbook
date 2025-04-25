@@ -6,6 +6,6 @@
       [user]
         name = {{ git_username }}
         email = {{ git_email }}
-    owner: "{{ ansible_user }}"
+    owner: "{{ ansible_user_id }}"
     group: staff
     mode: '0644'

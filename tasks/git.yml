@@ -1,11 +1,13 @@
 ---
-- name: Write user-specific gitconfig
-  copy:
-    dest: "{{ ansible_env.HOME }}/.gitconfig-user"
-    content: |
+- name: Update user-specific settings in .gitconfig
+  blockinfile:
+    path: "{{ ansible_env.HOME }}/.gitconfig"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - user section"
+    block: |
       [user]
-        name = {{ git_username }}
-        email = {{ git_email }}
+          name = {{ git_username }}
+          email = {{ git_email }}
+    state: present
     owner: "{{ ansible_user_id }}"
     group: staff
     mode: '0644'

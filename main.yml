@@ -19,6 +19,7 @@
   roles:
     - role: elliotweiser.osx-command-line-tools
     - role: geerlingguy.mac.homebrew
+      when: configure_homebrew
       tags: ['homebrew']
     - role: geerlingguy.dotfiles
       when: configure_dotfiles
@@ -54,12 +55,15 @@
       when: configure_git
       tags: ['git']
 
-    - name: Setup SSH keys
-      import_tasks: tasks/ssh.yml
+    - import_tasks: tasks/ssh.yml
       vars:
         user_type: "{{ user_type }}"
       when: configure_ssh
       tags: ['ssh']
+
+    - import_tasks: tasks/configure-mac.yml
+      when: configure_mac
+      tags: ['mac']
 
     - name: Run post-provision task files in a block.
       tags: ['post']
